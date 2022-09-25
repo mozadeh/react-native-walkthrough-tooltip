@@ -22,6 +22,9 @@ import {
 } from './geom';
 import styleGenerator from './styles';
 import TooltipChildrenContext from './tooltip-children.context';
+import * as Animatable from 'react-native-animatable';
+const { createAnimatableComponent } = Animatable;
+const AnimatableView = createAnimatableComponent(View);
 
 export { TooltipChildrenContext };
 
@@ -417,7 +420,9 @@ class Tooltip extends Component {
       >
         <View style={generatedStyles.containerStyle}>
           <View style={[generatedStyles.backgroundStyle]}>
-            <View style={generatedStyles.tooltipStyle}>
+            <AnimatableView
+              animation={'fadeInDown'}
+              delay={600} style={generatedStyles.tooltipStyle}>
               {hasChildren ? <View style={generatedStyles.arrowStyle} /> : null}
               <View
                 onLayout={this.measureContent}
@@ -430,7 +435,7 @@ class Tooltip extends Component {
                   {this.props.content}
                 </TouchableWithoutFeedback>
               </View>
-            </View>
+            </AnimatableView>
           </View>
           {hasChildren && this.props.showChildInTooltip
             ? this.renderChildInTooltip()
